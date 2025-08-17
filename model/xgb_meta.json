@@ -1,0 +1,32 @@
+{
+  "train_mae": 25485.807363668366,
+  "val_mae": 47680.256278069195,
+  "test_mae": 84464.27500281065,
+  "n_train": 206303,
+  "n_val": 27833,
+  "n_test": 16900,
+  "best_iteration": 2523,
+  "trained_at": "2025-08-17T21:19:35.029902+00:00Z",
+  "features": [
+    "year",
+    "month_num",
+    "storey_median",
+    "floor_area_sqm",
+    "remaining_lease",
+    "town_enc",
+    "flat_type_enc"
+  ],
+  "target": "resale_price",
+  "params": {
+    "objective": "reg:squarederror",
+    "eval_metric": "mae",
+    "max_depth": 6,
+    "eta": 0.03,
+    "subsample": 0.7,
+    "colsample_bytree": 0.7,
+    "lambda": 2.0,
+    "alpha": 0.5,
+    "seed": 42,
+    "tree_method": "hist"
+  }
+}
