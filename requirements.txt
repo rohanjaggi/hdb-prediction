@@ -5,3 +5,5 @@ sqlalchemy
 xgboost
 scikit-learn
 mlflow
+fastapi
+uvicorn[standard]
