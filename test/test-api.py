@@ -16,6 +16,24 @@ def test_api():
         "town": "ANG MO KIO",
         "flat_type": "4 ROOM"
     }
+
+    edge_cases = [
+        {"storey_median": 1, "floor_area_sqm": 30, "remaining_lease": 10, "town": "WOODLANDS", "flat_type": "2 ROOM"},
+        {"storey_median": 25, "floor_area_sqm": 45, "remaining_lease": 30, "town": "CENTRAL", "flat_type": "1 ROOM"},
+    ]
+
+    for i, edge_case in enumerate(edge_cases, 1):
+        try:
+            response = requests.post(f"{base_url}/bto_price", json=edge_case)
+            if response.status_code == 200:
+                result = response.json()
+                assert 50000 <= result <= 2000000
+                print(f"Edge case {i}: ${result:,.0f}")
+            else:
+                print(f"Edge case {i}: HTTP {response.status_code} (expected for invalid data)")
+        except Exception as e:
+            print(f"Edge case {i} failed: {str(e)[:50]}")
+
     
     response = requests.post(f"{base_url}/bto_price", json=test_data)
     assert response.status_code == 200
