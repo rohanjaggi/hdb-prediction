@@ -3,3 +3,6 @@
 __pycache__/
 mlruns/
 *.db
+model/xgb_model.json
+model/xgb_meta.json
+model/previous_metrics.json

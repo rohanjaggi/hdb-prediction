@@ -324,14 +324,7 @@ app = FastAPI(title="HDB BTO Price Prediction API", version="1.0.0", lifespan=li
 
 @app.get("/")
 def home():
-    return {
-        "message": "HDB BTO Price Prediction API with AI",
-        "endpoints": {
-            "bto_price": "POST /bto_price: Convert resale to BTO price",
-            "chat": "POST /chat: AI-powered BTO analysis and recommendations",
-            "bto_recommendations": "GET /bto_recommendations: Get BTO location suggestions",
-        }
-    }
+    return "HDB BTO Price Prediction API with AI"
 
 @app.get("/health")
 def health_check():

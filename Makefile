@@ -12,3 +12,5 @@ test:
 
 streamlit:
 	streamlit run frontend/app.py
+
+all: data train serve streamlit

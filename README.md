@@ -1,6 +1,8 @@
 # HDB BTO Price Prediction API
 
-### NOTE for GovTech: I was given an extension for this project as I was travelling overseas to start my semester exchange programme till Aug 21
+### NOTE 1 (for GovTech): I was given an extension for both assessments as I have been travelling overseas to start my semester exchange programme till Aug 21. I apologise for any inconvenience caused
+
+### NOTE 2: If the chat endpoint does not deliver a response, please try again :)
 
 ### 1. Install Dependencies
 ```bash
@@ -18,15 +20,21 @@ Create a `.env` file with your API key:
 ```bash
 echo "DATABASE_URL=sqlite:///hdb.db"
 echo "OPENROUTER_API_KEY=your_openai_api_key_here" 
-("sample key for testing": "sk-or-" + "v1-478d29af6f1d56bc5" + "234a65739b8d2b5a0ffa5af326" + "a69622e0e809c79dcde2d")
+("sample key for testing": "sk-or-" + "v1-478d29af6f1d56bc5" + "234a65739b8d2b5a0ffa5af326" +"a69622e0e809c79dcde2d")
 ```
 NOTE: The service uses DeepSeek R1, by OpenRouter (free to use)
 
 ### 4. Run the Pipeline
 ```bash
 make data
-make train   # Train model
+make train # train model
 make serve   
+```
+
+OR
+
+```bash
+make all # runs all 3  
 ```
 
 ### 5. Test the System
@@ -41,16 +49,16 @@ make health
 make streamlit
 ```
 
-## 🎯 Usage
+## Usage
 
 ### API Endpoints
-- **Health Check**: `GET http://localhost:8000/health`
-- **Price Prediction**: `POST http://localhost:8000/bto_price`
-- **AI Chat**: `POST http://localhost:8000/chat`
-- **BTO Recommendations**: `GET http://localhost:8000/bto_recommendations`
+- **Health Check**: `GET http://localhost:8000/health` (health check on API)
+- **Price Prediction**: `POST http://localhost:8000/bto_price` (predicts BTO price from input features inclusive of 20% discount)
+- **AI Chat**: `POST http://localhost:8000/chat` (ability to ask queries in natural language)
+- **BTO Recommendations**: `GET http://localhost:8000/bto_recommendations` (find the least serve towns for BTOs to create recommendations)
 
-### Frontend Interface
-- **Streamlit App**: `http://localhost:8501`
+### Frontend
+- **Streamlit**: `http://localhost:8501`
 
 ## Architecture & Design Choices
 
@@ -58,14 +66,14 @@ make streamlit
 - **Source**: Real HDB transaction data from data.gov.sg (HDB Resale Prices dataset: 2015-Present)
 - **Storage**: SQLite database for simplicity
 - **Processing**: Pandas for data transformation and feature engineering
-- **Automation**: Makefile-driven pipeline for reproducible builds
+- **Automation**: Makefile pipeline
 
-#### Feature Importance (Typical for HDB pricing)
+#### Feature Importance
 1. **Town** - Location is typically the strongest predictor
 2. **Floor Area** - Size directly correlates with price  
 3. **Flat Type** - Room count affects pricing
 4. **Storey Level** - Higher floors may command premium
-5. **Remaining Lease** - Lease duration impacts value
+5. **Remaining Lease** - Lease duration impacts value over time
 6. Year and month were removed to make the model more accurate to unseen data (model was overfitting)
 
 ### Machine Learning Model
@@ -81,6 +89,7 @@ make streamlit
 ### LLM Integration
 - **Provider**: DeepSeek R1 by OpenRouter for natural language understanding
 - **Function Calling**: Structured analysis of user queries
+- **Prompt Engineering**: Tried using Chain of Thought and Few Shot techniques
 
 ### Database Schema
 ```sql
@@ -111,10 +120,19 @@ transactions_raw (
 - **Advanced Models**: Try other models like ensemble methods, neural nets
 - **Caching**: Redis for faster repeated predictions
 - **Better AI Models**: Using paid models like OpenAI 4o for more reliable queries
+- **Testing & Automation**: More robust testing and test cases
 
 ### Data Science Improvements
 - **A/B Testing**: Multiple model versions for comparison
-- **Drift Detection**: Automated model retraining triggers
+- **Drift Detection**: Automated model retraining
+
+### Reccomended Performance Metrics (to be implemented):
+- **Response Time**: Track average latencies per endpoint
+- **Throughput**: Requests per second
+- **Error Rate**: HTTP 4xx/5xx error percentages
+- **Prediction Accuracy**: Compare predictions vs actual market prices
+- **Feature Drift**: Track changes in input feature distribution
+- **Model Confidence**: Monitor prediction variance and uncertainty
 
 ## AI Chat Features
 

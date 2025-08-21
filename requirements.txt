@@ -7,8 +7,5 @@ scikit-learn
 mlflow
 fastapi
 uvicorn
-ollama
 openai
-langchain
-langchain-community
 streamlit

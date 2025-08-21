@@ -11,7 +11,6 @@ st.sidebar.title("API Endpoints")
 endpoint = st.sidebar.selectbox(
     "Select API Endpoint:",
     [
-        "Home",
         "AI Chat",
         "BTO Price Prediction"
     ]
@@ -34,19 +33,8 @@ def make_api_call(method, endpoint, data=None, params=None):
             st.error(f"Error: {response.status_code} - {response.text}")
     except Exception as e:
         return f"Connection error: {str(e)}"
-    
-if endpoint == "Home":
-    st.header("API Home")
-    
-    if st.button("Get API Info"):
-        success, result = make_api_call("GET", "/")
-        if success:
-            st.success("API is running!")
-            st.json(result)
-        else:
-            st.error(f"API Error: {result}")
 
-elif endpoint == "AI Chat":
+if endpoint == "AI Chat":
     st.header("AI Chat for Analysis")
     st.markdown("Possible questions include:")
     st.markdown("1. Please recommend housing estates that have had limited BTO launches in the past ten years.")
