@@ -6,9 +6,9 @@ xgboost
 scikit-learn
 mlflow
 fastapi
-uvicorn[standard]
+uvicorn
 ollama
-openai>=1.0.0
+openai
 langchain
 langchain-community
 streamlit
