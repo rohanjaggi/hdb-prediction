@@ -9,6 +9,7 @@ import json
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 from contextlib import asynccontextmanager
+from datetime import datetime
 
 load_dotenv()
 
@@ -336,15 +337,21 @@ def health_check():
 
 @app.post("/bto_price")
 def bto_price(data: PredictRequest, discount: float = 20.0):
-    if not model:
-        raise HTTPException(503, "Model not loaded")
-    
-    try:
+    try:        
+        if not model:
+            print("Model not loaded")
+            raise HTTPException(503, "Model not loaded")
+        
         price = predict_price(data)
-        bto_price = price * (1 - discount / 100)
+        bto_price = price * (1 - discount/100)
+        
+        print(f"Prediction successful")
+        
         return round(bto_price, 2)
+        
     except Exception as e:
-        raise HTTPException(400, str(e))
+        print(f"Prediction failed")
+        raise HTTPException(500, f"Prediction error: {str(e)}")
 
 @app.post("/chat")
 async def chat(request: Request):
@@ -369,6 +376,7 @@ def bto_recommendations():
 
     try:
         recommendations = llm_service.get_bto_recommendations()
+        print("BTO recommendations fetched")
         return recommendations
     except Exception as e:
         raise HTTPException(500, f"Recommendation error: {str(e)}")

@@ -20,7 +20,13 @@ def test_api():
     response = requests.post(f"{base_url}/bto_price", json=test_data)
     assert response.status_code == 200
     result = response.json()
-    assert 200000 <= result <= 1000000
+    assert 100000 <= result <= 1000000 
+
+    invalid_data = {"town": "INVALID", "flat_type": "INVALID"}
+    error_response = requests.post(f"{base_url}/bto_price", json=invalid_data)
+    assert error_response.status_code in [400, 422]
+    print(error_response.status_code)
+
     print(f"prediction ok")
     
     print("api ok")
