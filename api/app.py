@@ -113,6 +113,7 @@ class HDBLLMService:
     def calculate_affordability(self, price: float) -> dict:
         monthly_payment = price * 0.004  #very simple loan calc
         required_monthly_income = monthly_payment / 0.3  #30% of income rule
+        #should add more depth to this calculation like adding down payment, interest rates, loan terms etc.
 
         if required_monthly_income <= 7000:
             category = "Low-Middle Income (<= $7k a month)"

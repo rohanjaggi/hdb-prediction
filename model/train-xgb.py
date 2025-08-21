@@ -68,7 +68,7 @@ def main():
         "alpha": 0.5,            
         "seed": 42,
         "tree_method": "hist",
-    }
+    } #played around with these params, and they seem to work well for the data, but more tuning could be done
 
     with mlflow.start_run():
         mlflow.log_params(params)
@@ -88,7 +88,7 @@ def main():
             evals=[(dtrain,"train"), (dval,"val")],
             early_stopping_rounds=100,
             verbose_eval=200
-        )
+        ) # experimented with a few diff models but xgboost came out on top and seems appropriate for this use case
 
         def mae(split):
             if len(split) == 0: return None
@@ -123,7 +123,7 @@ def main():
             "val_mae": val_mae,
             "test_mae": test_mae,
             "trained_at": datetime.now(UTC).isoformat() + "Z",
-        }
+        } #should add more metrics for testing like maybe RMSE, R2, MAPE etc.
     
         model.save_model(MODEL_PATH)
         with open(META_PATH, "w") as f:

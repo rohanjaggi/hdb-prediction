@@ -24,6 +24,7 @@ def test_api():
     print(f"prediction ok")
     
     print("api ok")
+    # test can be more robust by checking more endpoints and responses thoroughly
 
 if __name__ == "__main__":
     test_api()

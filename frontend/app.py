@@ -40,7 +40,7 @@ if endpoint == "AI Chat":
     st.markdown("1. Please recommend housing estates that have had limited BTO launches in the past ten years.")
     st.markdown("2. How much would a 4-room BTO flat cost in Tampines and what income do I need?")
     st.markdown("3. Please recommend housing estates that have had limited BTO launches in the past ten years. For each estate, provide an analysis of potential BTO prices for both 3-room and 4-room flats, considering low, middle, and high floor levels.")
-    st.markdown("4. What are the BTO prospects and prices in Sengkang?")
+    st.markdown("4. What are the BTO prospects and prices in Sengkang?") #could be expanded to include more diverse questions
     prompt = st.text_area(
         "Enter your question about BTOs:",
         value=st.session_state.get('chat_prompt', ''),
