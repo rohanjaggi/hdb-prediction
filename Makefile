@@ -1,11 +1,16 @@
-ingest:
-	python3 data/ingest.py
+data:
+	python3 data/ingest.py && python3 data/transform-data.py
 
-transform:
-	python3 data/transform-data.py
-
-train:
+train: data
 	python3 model/train-xgb.py
 
 serve:
-	uvicorn api.app:app --reload --port 8000
+	python3 api/app.py
+
+test:
+	python3 test/test-api.py
+
+streamlit:
+	streamlit run frontend/app.py
+
+all: train serve streamlit

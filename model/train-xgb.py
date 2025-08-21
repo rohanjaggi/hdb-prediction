@@ -15,11 +15,11 @@ MODEL_PATH = os.path.join("model", "xgb_model.json")
 META_PATH  = os.path.join("model", "xgb_meta.json")
 
 FEATURES = [
-    "year", "month_num",
     "storey_median",
     "floor_area_sqm",
     "remaining_lease",
-    "town_enc", "flat_type_enc",
+    "town_enc", 
+    "flat_type_enc",
 ]
 TARGET = "resale_price"
 
@@ -31,7 +31,7 @@ def load_data():
     WHERE {TARGET} IS NOT NULL
       AND storey_median IS NOT NULL
       AND floor_area_sqm IS NOT NULL
-      AND lease_commence_date IS NOT NULL
+      AND remaining_lease IS NOT NULL
       AND town_enc IS NOT NULL
       AND flat_type_enc IS NOT NULL
     """
@@ -40,10 +40,10 @@ def load_data():
     return df
 
 def time_split(df: pd.DataFrame):
-    # train <= 2023, validate = 2024, test >= 2025
-    train = df[df["year"] <= 2023]
-    val   = df[df["year"] == 2024]
-    test  = df[df["year"] >= 2025]
+    train = df.sample(frac=0.7, random_state=42)
+    remaining = df.drop(train.index)
+    val = remaining.sample(frac=0.5, random_state=42)
+    test = remaining.drop(val.index)
     return train, val, test
 
 def dmatrix(df):
@@ -112,7 +112,7 @@ def main():
         input_example = train[FEATURES].head(1).astype(float)
         mlflow.xgboost.log_model(
             model, 
-            artifact_path="model",
+            name="model",
             registered_model_name="hdb_price_predictor",
             input_example=input_example,
             model_format="json"
@@ -122,18 +122,9 @@ def main():
             "train_mae": train_mae,
             "val_mae": val_mae,
             "test_mae": test_mae,
-            "n_train": int(len(train)), 
-            "n_val": int(len(val)), 
-            "n_test": int(len(test)),
-            "best_iteration": best_iteration,
             "trained_at": datetime.now(UTC).isoformat() + "Z",
-            "features": FEATURES,
-            "target": TARGET,
-            "params": params
         }
-        
-        print({k: v for k, v in metrics.items() if v is not None})
-
+    
         model.save_model(MODEL_PATH)
         with open(META_PATH, "w") as f:
             json.dump(metrics, f, indent=2)
@@ -141,8 +132,19 @@ def main():
         mlflow.log_artifact(MODEL_PATH)
         mlflow.log_artifact(META_PATH)
         
-        print(f"Saved model:{MODEL_PATH}\nSaved meta:{META_PATH}")
         print(f"MLflow run: {mlflow.active_run().info.run_id}")
+
+        if os.path.exists("model/previous_metrics.json"):
+            with open("model/previous_metrics.json", 'r') as f:
+                prev_metrics = json.load(f)
+            
+            if metrics["test_mae"] < prev_metrics["test_mae"]:
+                print("New model is better")
+            else:
+                print(" Previous model was better")
+        
+        with open("model/previous_metrics.json", "w") as f:
+            json.dump(metrics, f)
 
 if __name__ == "__main__":
     main()
