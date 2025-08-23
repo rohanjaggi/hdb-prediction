@@ -20,6 +20,8 @@ Create a `.env` file with your API key:
 ```bash
 echo "DATABASE_URL=sqlite:///hdb.db"
 echo "OPENROUTER_API_KEY=your_openai_api_key_here" 
+```
+```bash
 ("sample key for testing": "sk-or-" + "v1-478d29af6f1d56bc5" + "234a65739b8d2b5a0ffa5af326" +"a69622e0e809c79dcde2d")
 ```
 NOTE: The service uses DeepSeek R1, by OpenRouter (free to use)
