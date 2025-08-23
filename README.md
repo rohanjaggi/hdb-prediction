@@ -34,7 +34,7 @@ make serve
 OR
 
 ```bash
-make all # runs all 3  
+make all # runs all 3 as above
 ```
 
 ### 5. Test the System
@@ -77,7 +77,7 @@ make streamlit
 6. Year and month were removed to make the model more accurate to unseen data (model was overfitting)
 
 ### Machine Learning Model
-- **Algorithm**: XGBoost Regression
+- **Algorithm**: XGBoost Regression (Was compared with CatBoost)
 - **Features**: Town, flat type, floor area, storey level, remaining lease
 - **Encoding**: Label encoding for categorical variables (town and flat type)
 
@@ -136,8 +136,8 @@ transactions_raw (
 
 ## AI Chat Features
 
-The LLM integration provides intelligent responses to queries like:
+The LLM provides responses to queries like:
 - "What are the cheapest BTO locations?"
-- "How much income do I need for a 4-room flat?"
+- "How much income do I need for a 4 room flat?"
 - "Compare prices between Sengkang and Punggol"
 - "Which towns have limited BTO launches recently?"
